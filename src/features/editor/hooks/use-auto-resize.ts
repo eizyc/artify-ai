@@ -1,5 +1,7 @@
 import { fabric } from "fabric";
 import { useCallback, useEffect } from "react";
+import { WORKSPACE_NAME } from "../const";
+import { cn } from "@/lib/utils";
 
 interface UseAutoResizeProps {
   canvas: fabric.Canvas | null;
@@ -21,7 +23,7 @@ export const useAutoResize = ({ canvas, container }: UseAutoResizeProps) => {
     const zoomRatio = 0.85;
     const localWorkspace = canvas
       .getObjects()
-      .find((object) => object.name === "clip");
+      .find((object) => object.name === WORKSPACE_NAME);
 
     // http://fabricjs.com/docs/fabric.util.html#.findScaleToFit 
     // @ts-ignore
@@ -39,8 +41,10 @@ export const useAutoResize = ({ canvas, container }: UseAutoResizeProps) => {
 
     if (!localWorkspace) return;
 
-    // get the center of the workspace in the object in its local coordinate.
+    // get the center of the workspace in the object in canvas coordinate.
     const workspaceCenter = localWorkspace.getCenterPoint();
+
+    console.log(canvas.height, canvas.width, workspaceCenter);
 
     // 6 numbers that represents a 2D transformation matrix
     // [horizontal scaling, vertical skewing, horizontal skewing, vertical scaling, horizontal translation, vertical translation]

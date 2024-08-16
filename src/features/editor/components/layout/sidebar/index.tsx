@@ -11,7 +11,7 @@ import {
   LucideIcon,
 } from "lucide-react";
 import { ActiveTool } from "@/features/editor/types";
-import { SidebarItem } from "./sidebar-item";
+import { SidebarItem } from "./components/sidebar-item";
 
 interface SidebarProps {
   activeTool: ActiveTool;
