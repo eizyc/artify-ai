@@ -2,10 +2,22 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { fabric } from "fabric";
 import { useAutoResize } from "@/features/editor/hooks/use-auto-resize";
 import { EditorHookProps, BuildEditorProps, Editor } from "@/features/editor/types";
-import { CIRCLE_OPTIONS, DIAMOND_OPTIONS, RECTANGLE_OPTIONS, SHAPE_SIZE, TRIANGLE_OPTIONS, WORKSPACE_NAME } from "../const";
+import { CIRCLE_OPTIONS, DIAMOND_OPTIONS, FILL_COLOR, FONT_FAMILY, RECTANGLE_OPTIONS, SHAPE_SIZE, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TRIANGLE_OPTIONS, WORKSPACE_NAME } from "../const";
+import { useCanvasEvents } from "./use-canvas-events";
+import { isTextType, mixColors } from "../utils";
 
 const buildEditor = ({
-  canvas
+  canvas,
+  fillColor,
+  strokeColor,
+  strokeWidth, 
+  selectedObjects,
+  strokeDashArray,
+  setFillColor,
+  setStrokeColor,
+  setStrokeWidth,
+  setStrokeDashArray,
+
 }:BuildEditorProps): Editor => {
   const getWorkspace = () => {
     return canvas
@@ -29,6 +41,42 @@ const buildEditor = ({
 
 
   return {
+    changeFillColor: (value: string) => {
+      setFillColor(value);
+      canvas.getActiveObjects().forEach((object) => {
+        object.set({ fill: value });
+      });
+      canvas.renderAll();
+    },
+    changeStrokeColor: (value: string) => {
+      setStrokeColor(value);
+      canvas.getActiveObjects().forEach((object) => {
+        // Text types don't have stroke
+        if (isTextType(object.type)) {
+          object.set({ fill: value });
+          return;
+        }
+
+        object.set({ stroke: value });
+      });
+      canvas.freeDrawingBrush.color = value;
+      canvas.renderAll();
+    },
+    changeStrokeWidth: (value: number) => {
+      setStrokeWidth(value);
+      canvas.getActiveObjects().forEach((object) => {
+        object.set({ strokeWidth: value });
+      });
+      canvas.freeDrawingBrush.width = value;
+      canvas.renderAll();
+    },
+    changeStrokeDashArray: (value: number[]) => {
+      setStrokeDashArray(value);
+      canvas.getActiveObjects().forEach((object) => {
+        object.set({ strokeDashArray: value });
+      });
+      canvas.renderAll();
+    },
     addCircle: () => {
       const object = new fabric.Circle({
         ...CIRCLE_OPTIONS,
@@ -97,6 +145,21 @@ const buildEditor = ({
       );
       addToCanvas(object);
     },
+    getActiveFillColor: () => {
+
+      if (!selectedObjects?.length) {
+        return fillColor;
+      }
+
+      const colors = selectedObjects.map((object) => object.get("fill") as string).filter(Boolean);
+
+      console.log(colors)
+      const value = mixColors(colors) || fillColor;
+
+      // Currently, gradients & patterns are not supported
+      return value as string;
+    },
+    selectedObjects,
   }
 }
 export const useEditor = (
@@ -110,17 +173,40 @@ export const useEditor = (
 
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
+  const [selectedObjects, setSelectedObjects] = useState<fabric.Object[]>([]);
+
+  const [fillColor, setFillColor] = useState(FILL_COLOR);
+  const [strokeColor, setStrokeColor] = useState(STROKE_COLOR);
+  const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH);
+  const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY);
+
 
   const editor = useMemo(() => {
       if (canvas) {
-        return buildEditor({canvas})
+        return buildEditor({
+          canvas,
+          fillColor,
+          strokeColor,
+          strokeWidth, 
+          selectedObjects,
+          strokeDashArray,
+          setFillColor,
+          setStrokeColor,
+          setStrokeWidth,
+          setStrokeDashArray,
+        })
       }
       return undefined
-    }, [canvas]);
+    }, [canvas, fillColor, selectedObjects, strokeColor, strokeDashArray, strokeWidth]);
 
   const { autoZoom } = useAutoResize({
     canvas,
     container,
+  });
+
+  useCanvasEvents({
+    canvas,
+    setSelectedObjects,
   });
   
   const init = useCallback((
