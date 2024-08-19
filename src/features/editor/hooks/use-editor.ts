@@ -96,6 +96,13 @@ const buildEditor = ({
       });
       canvas.renderAll();
     },
+    changeOpacity: (value: number) => {
+      canvas.getActiveObjects().forEach((object) => {
+        object.set({ opacity: value });
+      });
+      canvas.renderAll();
+    },
+    
     addCircle: () => {
       const object = new fabric.Circle({
         ...CIRCLE_OPTIONS,
@@ -207,6 +214,17 @@ const buildEditor = ({
       }
 
       const value = selectedObject.get("strokeDashArray") || strokeDashArray;
+
+      return value;
+    },
+    getActiveOpacity: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return 1;
+      }
+
+      const value = selectedObject.get("opacity") || 1;
 
       return value;
     },
