@@ -9,7 +9,8 @@ import { ActiveTool } from "@/features/editor/types";
 import {
   ShapeSidebar,
   FillColorSidebar,
-  StrokeColorSidebar
+  StrokeColorSidebar,
+  StrokeStyleSidebar
 } from "@/features/editor/components/layout/sidebar/components";
 import { selectionDependentTools } from "../const";
 
@@ -18,6 +19,7 @@ export const Editor = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [activeTool, setActiveTool] = useState<ActiveTool>("select");
+
 
   const onClearSelection = useCallback(() => {
     if (selectionDependentTools.includes(activeTool)) {
@@ -57,6 +59,12 @@ export const Editor = () => {
     };
   }, [init]);
 
+  const params = {
+    editor,
+    activeTool,
+    onChangeActiveTool
+  }
+
   return (
     <div className="h-full flex flex-col">
       <Navbar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
@@ -65,27 +73,12 @@ export const Editor = () => {
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
         />
-        <ShapeSidebar
-          editor={editor}
-          activeTool={activeTool}
-          onChangeActiveTool={onChangeActiveTool}
-        />
-        <FillColorSidebar
-          editor={editor}
-          activeTool={activeTool}
-          onChangeActiveTool={onChangeActiveTool}
-        />
-        <StrokeColorSidebar
-          editor={editor}
-          activeTool={activeTool}
-          onChangeActiveTool={onChangeActiveTool}
-        />
+        <ShapeSidebar {...params}/>
+        <FillColorSidebar {...params}/>
+        <StrokeColorSidebar {...params}/>
+        <StrokeStyleSidebar {...params}/>
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
-          <Toolbar
-            editor={editor}
-            activeTool={activeTool}
-            onChangeActiveTool={onChangeActiveTool}
-          />
+          <Toolbar {...params}/>
           <div
             className="flex-1 h-[calc(100%-124px)] bg-muted"
             ref={containerRef}

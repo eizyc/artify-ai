@@ -91,5 +91,5 @@ export const selectionDependentTools = [
   "opacity",
   "remove-bg",
   "stroke-color",
-  "stroke-width",
+  "stroke-style",
 ];

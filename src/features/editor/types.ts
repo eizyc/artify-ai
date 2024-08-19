@@ -13,7 +13,7 @@ export type ActiveTool =
   | "draw"
   | "fill"
   | "stroke-color"
-  | "stroke-width"
+  | "stroke-style"
   | "font"
   | "opacity"
   | "filter"
@@ -50,6 +50,8 @@ export type ActiveTool =
     changeStrokeDashArray: (value: number[]) => void;
     getActiveFillColor: () => string;
     getActiveStrokeColor: () => string;
+    getActiveStrokeWidth: () => number;
+    getActiveStrokeDashArray: () => number[];
     selectedObjects: fabric.Object[];
   };
   
