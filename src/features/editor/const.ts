@@ -1,6 +1,8 @@
 import * as material from "material-colors";
 
-export const WORKSPACE_NAME = "clip"; 
+export const WORKSPACE_NAME = "clip";
+export const WORKSPACE_WIDTH = 200;
+export const WORKSPACE_HEIGHT = 300;
 
 export const FILL_COLOR = "rgba(0,0,0,1)";
 export const STROKE_COLOR = "rgba(0,0,0,1)";

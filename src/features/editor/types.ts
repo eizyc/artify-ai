@@ -38,12 +38,14 @@ export type ActiveTool =
   };
   
   export interface Editor {
+    canvas: fabric.Canvas;
     addCircle: () => void;
     addSoftRectangle: () => void;
     addRectangle: () => void;
     addTriangle: () => void;
     addInverseTriangle: () => void;
     addDiamond: () => void;
+    addText: (value: string, options?: ITextboxOptions) => void;
     bringForward: () => void;
     sendBackwards: () => void;
     changeStrokeWidth: (value: number) => void;

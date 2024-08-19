@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { fabric } from "fabric";
 import { useAutoResize } from "@/features/editor/hooks/use-auto-resize";
 import { EditorHookProps, BuildEditorProps, Editor } from "@/features/editor/types";
-import { CIRCLE_OPTIONS, DIAMOND_OPTIONS, FILL_COLOR, FONT_FAMILY, RECTANGLE_OPTIONS, SHAPE_SIZE, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TRIANGLE_OPTIONS, WORKSPACE_NAME } from "../const";
+import { CIRCLE_OPTIONS, DIAMOND_OPTIONS, FILL_COLOR, FONT_FAMILY, RECTANGLE_OPTIONS, SHAPE_SIZE, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS, WORKSPACE_HEIGHT, WORKSPACE_NAME, WORKSPACE_WIDTH } from "../const";
 import { useCanvasEvents } from "./use-canvas-events";
 import { isTextType, mixColors } from "../utils";
 
@@ -41,6 +41,7 @@ const buildEditor = ({
 
 
   return {
+    canvas,
     bringForward: () => {
       canvas.getActiveObjects().forEach((object) => {
         canvas.bringForward(object);
@@ -169,6 +170,14 @@ const buildEditor = ({
           ...shape,
         }
       );
+      addToCanvas(object);
+    },
+    addText: (value, options) => {
+      const object = new fabric.Textbox(value, {
+        ...TEXT_OPTIONS,
+        ...options,
+      });
+
       addToCanvas(object);
     },
     getActiveFillColor: () => {
@@ -302,8 +311,8 @@ export const useEditor = (
       });
 
       const initialWorkspace = new fabric.Rect({
-        width: 200,
-        height: 300,
+        width: WORKSPACE_WIDTH,
+        height: WORKSPACE_HEIGHT,
         name: WORKSPACE_NAME,
         fill: "white",
         selectable: false,
