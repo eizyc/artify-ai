@@ -153,11 +153,21 @@ const buildEditor = ({
 
       const colors = selectedObjects.map((object) => object.get("fill") as string).filter(Boolean);
 
-      console.log(colors)
       const value = mixColors(colors) || fillColor;
 
       // Currently, gradients & patterns are not supported
       return value as string;
+    },
+    getActiveStrokeColor: () => {
+
+      if (!selectedObjects?.length) {
+        return strokeColor;
+      }
+      const colors = selectedObjects.map((object) => object.get("stroke") as string).filter(Boolean);
+
+      const value = mixColors(colors) || strokeColor;
+
+      return value;
     },
     selectedObjects,
   }

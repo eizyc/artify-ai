@@ -9,6 +9,7 @@ import { ActiveTool } from "@/features/editor/types";
 import {
   ShapeSidebar,
   FillColorSidebar,
+  StrokeColorSidebar
 } from "@/features/editor/components/layout/sidebar/components";
 import { selectionDependentTools } from "../const";
 
@@ -70,6 +71,11 @@ export const Editor = () => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <FillColorSidebar
+          editor={editor}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <StrokeColorSidebar
           editor={editor}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}

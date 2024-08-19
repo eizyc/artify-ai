@@ -20,6 +20,7 @@ export const Toolbar = ({
   onChangeActiveTool,
 }: ToolbarProps) => {
   const fillColor = editor?.getActiveFillColor();
+  const strokeColor = editor?.getActiveStrokeColor();
 
   if (editor?.selectedObjects.length === 0) {
     return (
@@ -46,7 +47,23 @@ export const Toolbar = ({
             </Button>
           </Hint>
         </div>
-
+        <div className="flex items-center h-full justify-center">
+          <Hint label="Stroke color" side="bottom" sideOffset={5}>
+            <Button
+              onClick={() => onChangeActiveTool("stroke-color")}
+              size="icon"
+              variant="ghost"
+              className={cn(
+                activeTool === "stroke-color" && "bg-gray-100"
+              )}
+            >
+              <div
+                className="rounded-sm size-4 border-2 bg-white"
+                style={{ borderColor: strokeColor }}
+              />
+            </Button>
+          </Hint>
+        </div>
     </div>
   );
 };

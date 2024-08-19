@@ -49,6 +49,7 @@ export type ActiveTool =
     changeStrokeColor: (value: string) => void;
     changeStrokeDashArray: (value: number[]) => void;
     getActiveFillColor: () => string;
+    getActiveStrokeColor: () => string;
     selectedObjects: fabric.Object[];
   };
   
