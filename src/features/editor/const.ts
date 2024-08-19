@@ -62,6 +62,7 @@ export const TEXT_OPTIONS = {
   fill: FILL_COLOR,
   fontSize: FONT_SIZE,
   fontFamily: FONT_FAMILY,
+  paintFirst: "stroke",
 };
 
 export const COLORS = [
@@ -94,4 +95,25 @@ export const selectionDependentTools = [
   "remove-bg",
   "stroke-color",
   "stroke-style",
+];
+
+export const FONTS = [
+  "Arial",
+  "Arial Black",
+  "Verdana",
+  "Helvetica",
+  "Tahoma",
+  "Trebuchet MS",
+  "Times New Roman",
+  "Georgia",
+  "Garamond",
+  "Courier New",
+  "Brush Script MT",
+  "Palatino",
+  "Bookman",
+  "Comic Sans MS",
+  "Impact",
+  "Lucida Sans Unicode",
+  "Geneva",
+  "Lucida Console",
 ];

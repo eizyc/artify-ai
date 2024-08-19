@@ -13,10 +13,12 @@ const buildEditor = ({
   strokeWidth, 
   selectedObjects,
   strokeDashArray,
+  fontFamily,
   setFillColor,
   setStrokeColor,
   setStrokeWidth,
   setStrokeDashArray,
+  setFontFamily,
 
 }:BuildEditorProps): Editor => {
   const getWorkspace = () => {
@@ -71,12 +73,6 @@ const buildEditor = ({
     changeStrokeColor: (value: string) => {
       setStrokeColor(value);
       canvas.getActiveObjects().forEach((object) => {
-        // Text types don't have stroke
-        if (isTextType(object.type)) {
-          object.set({ fill: value });
-          return;
-        }
-
         object.set({ stroke: value });
       });
       canvas.freeDrawingBrush.color = value;
@@ -100,6 +96,17 @@ const buildEditor = ({
     changeOpacity: (value: number) => {
       canvas.getActiveObjects().forEach((object) => {
         object.set({ opacity: value });
+      });
+      canvas.renderAll();
+    },
+    changeFontFamily: (value: string) => {
+      setFontFamily(value);
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          // @ts-ignore
+          // Faulty TS library, fontFamily exists.
+          object.set({ fontFamily: value });
+        }
       });
       canvas.renderAll();
     },
@@ -237,6 +244,20 @@ const buildEditor = ({
 
       return value;
     },
+    getActiveFontFamily: () => {
+
+      const selectedObject = selectedObjects.filter((object) => isTextType(object.type))?.[0];
+
+      if (!selectedObject) {
+        return fontFamily;
+      }
+
+      // @ts-ignore
+      // Faulty TS library, fontFamily exists.
+      const value = selectedObject.get("fontFamily") || fontFamily;
+
+      return value;
+    },
     selectedObjects,
   }
 }
@@ -258,6 +279,7 @@ export const useEditor = (
   const [strokeColor, setStrokeColor] = useState(STROKE_COLOR);
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH);
   const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY);
+  const [fontFamily, setFontFamily] = useState(FONT_FAMILY);
 
 
   const editor = useMemo(() => {
@@ -269,10 +291,12 @@ export const useEditor = (
           strokeWidth, 
           selectedObjects,
           strokeDashArray,
+          fontFamily,
           setFillColor,
           setStrokeColor,
           setStrokeWidth,
           setStrokeDashArray,
+          setFontFamily,
         })
       }
       return undefined

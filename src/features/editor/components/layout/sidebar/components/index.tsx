@@ -4,3 +4,4 @@ export { StrokeColorSidebar } from "./stroke-color-sidebar";
 export { StrokeStyleSidebar } from "./stroke-style-sidebar";
 export { OpacitySidebar } from "./opacity-sidebar";
 export { TextSidebar } from "./text-sidebar";
+export { FontSidebar } from "./font-sidebar";

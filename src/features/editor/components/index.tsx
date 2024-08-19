@@ -12,7 +12,8 @@ import {
   StrokeColorSidebar,
   StrokeStyleSidebar,
   OpacitySidebar,
-  TextSidebar
+  TextSidebar,
+  FontSidebar
 } from "@/features/editor/components/layout/sidebar/components";
 import { selectionDependentTools } from "../const";
 
@@ -81,6 +82,7 @@ export const Editor = () => {
         <StrokeStyleSidebar {...params}/>
         <OpacitySidebar {...params}/>
         <TextSidebar {...params}/>
+        <FontSidebar {...params}/>
 
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar {...params}/>

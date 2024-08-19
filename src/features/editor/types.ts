@@ -31,10 +31,12 @@ export type ActiveTool =
     strokeWidth: number;
     selectedObjects: fabric.Object[];
     strokeDashArray: number[];
+    fontFamily: string;
     setStrokeDashArray: (value: number[]) => void;
     setFillColor: (value: string) => void;
     setStrokeColor: (value: string) => void;
     setStrokeWidth: (value: number) => void;
+    setFontFamily: (value: string) => void;
   };
   
   export interface Editor {
@@ -53,11 +55,13 @@ export type ActiveTool =
     changeStrokeColor: (value: string) => void;
     changeStrokeDashArray: (value: number[]) => void;
     changeOpacity: (value: number) => void;
+    changeFontFamily: (value: string) => void;
     getActiveFillColor: () => string;
     getActiveStrokeColor: () => string;
     getActiveStrokeWidth: () => number;
     getActiveStrokeDashArray: () => number[];
     getActiveOpacity: () => number;
+    getActiveFontFamily: () => string;
     selectedObjects: fabric.Object[];
   };
   
