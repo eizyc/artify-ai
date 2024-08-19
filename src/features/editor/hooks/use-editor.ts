@@ -163,10 +163,11 @@ const buildEditor = ({
   }
 }
 export const useEditor = (
-  // {
-  //   defaultHeight,
-  //   defaultWidth,
-  // }: EditorHookProps
+  {
+    defaultHeight,
+    defaultWidth,
+    clearSelectionCallback
+  }: EditorHookProps
 ) => {
   // const initialWidth = useRef(defaultWidth);
   // const initialHeight = useRef(defaultHeight);
@@ -207,6 +208,7 @@ export const useEditor = (
   useCanvasEvents({
     canvas,
     setSelectedObjects,
+    clearSelectionCallback
   });
   
   const init = useCallback((

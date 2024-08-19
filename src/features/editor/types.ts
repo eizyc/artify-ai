@@ -2,6 +2,7 @@ import { ITextboxOptions } from "fabric/fabric-impl";
 export interface EditorHookProps {
   defaultWidth?: number;
   defaultHeight?: number;
+  clearSelectionCallback?: () => void;
 };
 
 export type ActiveTool =

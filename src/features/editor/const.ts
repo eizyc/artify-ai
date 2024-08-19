@@ -83,3 +83,13 @@ export const COLORS = [
   material.blueGrey["500"],
   "transparent",
 ];
+
+export const selectionDependentTools = [
+  "fill",
+  "font",
+  "filter",
+  "opacity",
+  "remove-bg",
+  "stroke-color",
+  "stroke-width",
+];
