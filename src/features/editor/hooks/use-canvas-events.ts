@@ -15,11 +15,11 @@ export const useCanvasEvents = ({
   useEffect(() => {
     if (canvas) {
       canvas.on("selection:created", (e) => {
-        setSelectedObjects(e.selected || []);
+        setSelectedObjects(e.selected ?? []);
       });
       canvas.on("selection:updated", (e) => {
         const selectedObjects = canvas.getActiveObjects();
-        setSelectedObjects(selectedObjects || []);
+        setSelectedObjects(selectedObjects ?? []);
       });
       canvas.on("selection:cleared", () => {
         setSelectedObjects([]);

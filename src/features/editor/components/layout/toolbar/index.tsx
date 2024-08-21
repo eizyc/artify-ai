@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { 
   ActiveTool, 
   Editor, 
@@ -10,7 +10,9 @@ import { Button } from "@/components/ui/button";
 import { BsBorderWidth } from "react-icons/bs";
 import { RxTransparencyGrid } from "react-icons/rx";
 import { ArrowDown, ArrowUp, ChevronDown } from "lucide-react";
-import { isTextType } from "../utils";
+import { FontSizeInput, FontWeightSelect } from "./components";
+import { isTextType } from "../../../utils";
+import { FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, STROKE_COLOR } from "@/features/editor/const";
 
 interface ToolbarProps {
   editor: Editor | undefined;
@@ -18,20 +20,71 @@ interface ToolbarProps {
   onChangeActiveTool: (tool: ActiveTool) => void;
 };
 
+const side = 'top';
+const sideOffset = 5;
 export const Toolbar = ({
   editor,
   activeTool,
   onChangeActiveTool,
 }: ToolbarProps) => {
-  const fillColor = editor?.getActiveFillColor();
-  const strokeColor = editor?.getActiveStrokeColor();
-  const fontFamily = editor?.getActiveFontFamily();
+  const initialFillColor = editor?.getActiveFillColor() ?? FILL_COLOR;
+  const initialStrokeColor = editor?.getActiveStrokeColor() ?? STROKE_COLOR;
+  const initialFontFamily = editor?.getActiveFontFamily() ?? FONT_FAMILY;
+  const initialFontWeight = editor?.getActiveFontWeight() ?? FONT_WEIGHT;
+  const initialFontSize = editor?.getActiveFontSize() ?? FONT_SIZE;
+
+  const [properties, setProperties] = useState({
+    fillColor: initialFillColor,
+    strokeColor: initialStrokeColor,
+    fontFamily: initialFontFamily,
+    fontWeight: initialFontWeight,
+    fontSize: initialFontSize,
+  });
+
+  const selectedObjects = useMemo(() => editor?.selectedObjects, [editor]);
 
   const [includeText] = useMemo(() => {
-    const selectedObjects = editor?.selectedObjects??[];
-    const includeText = selectedObjects.some((object) => isTextType(object.type));
+    const includeText = selectedObjects?.some((object) => isTextType(object.type));
     return [includeText]
-  }, [editor])
+  }, [selectedObjects])
+
+  useEffect(() => {
+    if (!editor)  return
+    setProperties((current) => ({
+      ...current,
+      fillColor: editor?.getActiveFillColor() ?? FILL_COLOR,
+      strokeColor: editor?.getActiveStrokeColor() ?? STROKE_COLOR,
+      fontFamily: editor?.getActiveFontFamily() ?? FONT_FAMILY,
+      fontWeight: editor?.getActiveFontWeight() ?? FONT_WEIGHT,
+      fontSize: editor?.getActiveFontSize() ?? FONT_SIZE,
+    }));
+    },[editor])
+
+
+
+  const onChangeFontSize = (value: number) => {
+    if (!selectedObjects) {
+      return;
+    }
+
+    editor?.changeFontSize(value);
+    setProperties((current) => ({
+      ...current,
+      fontSize: value,
+    }));
+  };
+
+  const onChangeFontWeight = (value: number) => {
+    if (!selectedObjects) {
+      return;
+    }
+
+    editor?.changeFontWeight(value);
+    setProperties((current) => ({
+      ...current,
+      fontWeight: value,
+    }));
+  };
 
   if (editor?.selectedObjects.length === 0) {
     return (
@@ -42,7 +95,7 @@ export const Toolbar = ({
   return (
     <div className="shrink-0 h-[56px] border-b bg-white w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-2">
       <div className="flex items-center h-full justify-center">
-        <Hint label="Color" side="bottom" sideOffset={5}>
+        <Hint label="Color" side={side} sideOffset={sideOffset}>
           <Button
             onClick={() => onChangeActiveTool("fill")}
             size="icon"
@@ -53,14 +106,14 @@ export const Toolbar = ({
           >
             <div
               className="rounded-sm size-4 border"
-              style={{ backgroundColor: fillColor }}
+              style={{ backgroundColor: properties.fillColor }}
             />
           </Button>
         </Hint>
       </div>
       
       <div className="flex items-center h-full justify-center">
-        <Hint label="Stroke color" side="bottom" sideOffset={5}>
+        <Hint label="Stroke color" side={side} sideOffset={sideOffset}>
           <Button
             onClick={() => onChangeActiveTool("stroke-color")}
             size="icon"
@@ -71,13 +124,13 @@ export const Toolbar = ({
           >
             <div
               className="rounded-sm size-4 border-2 bg-white"
-              style={{ borderColor: strokeColor }}
+              style={{ borderColor: properties.strokeColor }}
             />
           </Button>
         </Hint>
       </div>
       <div className="flex items-center h-full justify-center">
-        <Hint label="Stroke Style" side="bottom" sideOffset={5}>
+        <Hint label="Stroke Style" side={side} sideOffset={sideOffset}>
           <Button
             onClick={() => onChangeActiveTool("stroke-style")}
             size="icon"
@@ -92,7 +145,7 @@ export const Toolbar = ({
       </div>
       {includeText && (
         <div className="flex items-center h-full justify-center">
-          <Hint label="Font" side="bottom" sideOffset={5}>
+          <Hint label="Font" side={side} sideOffset={sideOffset}>
             <Button
               onClick={() => onChangeActiveTool("font")}
               size="icon"
@@ -103,7 +156,7 @@ export const Toolbar = ({
               )}
             >
               <div className="max-w-[100px] truncate">
-                {fontFamily}
+                {properties.fontFamily}
               </div>
               <ChevronDown className="size-4 ml-2 shrink-0" />
             </Button>
@@ -111,7 +164,7 @@ export const Toolbar = ({
         </div>
       )}
       <div className="flex items-center h-full justify-center">
-        <Hint label="Bring forward" side="bottom" sideOffset={5}>
+        <Hint label="Bring forward" side={side} sideOffset={sideOffset}>
           <Button
             onClick={() => editor?.bringForward()}
             size="icon"
@@ -122,7 +175,7 @@ export const Toolbar = ({
         </Hint>
       </div>
       <div className="flex items-center h-full justify-center">
-        <Hint label="Send backwards" side="bottom" sideOffset={5}>
+        <Hint label="Send backwards" side={side} sideOffset={sideOffset}>
           <Button
             onClick={() => editor?.sendBackwards()}
             size="icon"
@@ -133,7 +186,7 @@ export const Toolbar = ({
         </Hint>
       </div>
       <div className="flex items-center h-full justify-center">
-        <Hint label="Opacity" side="bottom" sideOffset={5}>
+        <Hint label="Opacity" side={side} sideOffset={sideOffset}>
           <Button
             onClick={() => onChangeActiveTool("opacity")}
             size="icon"
@@ -144,6 +197,30 @@ export const Toolbar = ({
           </Button>
         </Hint>
       </div>
+      {includeText && (
+        <div className="flex items-center h-full justify-center">
+          <Hint label="Font Weight" side="top" sideOffset={sideOffset}>
+            <div>
+              <FontWeightSelect
+                value={properties.fontWeight}
+                onChange={(value) => { onChangeFontWeight (value) }}
+              />
+            </div>
+          </Hint>
+        </div>
+      )}
+      {includeText && (
+        <div className="flex items-center h-full justify-center">
+        <Hint label="Font Size" side={side} sideOffset={sideOffset}>
+          <div className="flex items-center justify-center">
+            <FontSizeInput
+              value={properties.fontSize}
+              onChange={(value) => { onChangeFontSize (value) }}
+            />
+          </div>
+         </Hint>
+        </div>
+      )}
     </div>
   );
 };

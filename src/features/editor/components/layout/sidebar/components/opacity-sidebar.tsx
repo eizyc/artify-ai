@@ -22,14 +22,14 @@ export const OpacitySidebar = ({
   activeTool,
   onChangeActiveTool,
 }: OpacitySidebarProps) => {
-  const initialValue = editor?.getActiveOpacity() || 1;
+  const initialValue = editor?.getActiveOpacity() ?? 1;
   const selectedObject = useMemo(() => editor?.selectedObjects[0], [editor?.selectedObjects]);
 
   const [opacity, setOpacity] = useState(initialValue);
 
   useEffect(() => {
     if (selectedObject) {
-      setOpacity(selectedObject.get("opacity") || 1);
+      setOpacity(selectedObject.get("opacity") ?? 1);
     }
   }, [selectedObject]);
 

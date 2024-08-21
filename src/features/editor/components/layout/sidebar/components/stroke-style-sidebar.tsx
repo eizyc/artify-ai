@@ -23,8 +23,8 @@ export const StrokeStyleSidebar = ({
   activeTool,
   onChangeActiveTool,
 }: StrokeStyleSidebarProps) => {
-  const widthValue = editor?.getActiveStrokeWidth() || STROKE_WIDTH;
-  const typeValue = editor?.getActiveStrokeDashArray() || STROKE_DASH_ARRAY;
+  const widthValue = editor?.getActiveStrokeWidth() ?? STROKE_WIDTH;
+  const typeValue = editor?.getActiveStrokeDashArray() ?? STROKE_DASH_ARRAY;
 
   const onClose = () => {
     onChangeActiveTool("select");
@@ -52,7 +52,7 @@ export const StrokeStyleSidebar = ({
       <ScrollArea>
         <div className="p-4 space-y-4 border-b">
           <Label className="text-sm">
-            Stroke width
+            Stroke width: {widthValue}
           </Label>
           <Slider
             value={[widthValue]}

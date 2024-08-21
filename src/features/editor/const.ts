@@ -1,5 +1,6 @@
 import * as material from "material-colors";
 
+
 export const WORKSPACE_NAME = "clip";
 export const WORKSPACE_WIDTH = 200;
 export const WORKSPACE_HEIGHT = 300;
@@ -11,6 +12,8 @@ export const STROKE_DASH_ARRAY = [];
 export const FONT_FAMILY = "Arial";
 export const FONT_SIZE = 32;
 export const FONT_WEIGHT = 400;
+export const FONT_STROKE_WIDTH = 0;
+
 
 export const SHAPE_SIZE = 100;
 export const CIRCLE_OPTIONS = {
@@ -62,6 +65,9 @@ export const TEXT_OPTIONS = {
   fill: FILL_COLOR,
   fontSize: FONT_SIZE,
   fontFamily: FONT_FAMILY,
+  stroke: STROKE_COLOR,
+  strokeWidth: FONT_STROKE_WIDTH,
+  fontWeight: FONT_WEIGHT,
   paintFirst: "stroke",
 };
 

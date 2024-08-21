@@ -18,7 +18,7 @@ export const StrokeColorSidebar = ({
   activeTool,
   onChangeActiveTool,
 }: StrokeColorSidebarProps) => {
-  const value = editor?.getActiveStrokeColor() || STROKE_COLOR;
+  const value = editor?.getActiveStrokeColor() ?? STROKE_COLOR;
 
   const onClose = () => {
     onChangeActiveTool("select");

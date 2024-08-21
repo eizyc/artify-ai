@@ -1,7 +1,7 @@
 "use client";
 
 import { Navbar, Sidebar, Footer } from "@/features/editor/components/layout";
-import { Toolbar } from "@/features/editor/components/toolbar";
+import { Toolbar } from "@/features/editor/components/layout/toolbar";
 import { useEditor } from "@/features/editor/hooks/use-editor";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
@@ -85,7 +85,7 @@ export const Editor = () => {
         <FontSidebar {...params}/>
 
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
-          <Toolbar {...params}/>
+          <Toolbar {...params} />
           <div
             className="flex-1 h-[calc(100%-124px)] bg-muted"
             ref={containerRef}

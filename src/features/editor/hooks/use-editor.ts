@@ -2,7 +2,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { fabric } from "fabric";
 import { useAutoResize } from "@/features/editor/hooks/use-auto-resize";
 import { EditorHookProps, BuildEditorProps, Editor } from "@/features/editor/types";
-import { CIRCLE_OPTIONS, DIAMOND_OPTIONS, FILL_COLOR, FONT_FAMILY, RECTANGLE_OPTIONS, SHAPE_SIZE, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS, WORKSPACE_HEIGHT, WORKSPACE_NAME, WORKSPACE_WIDTH } from "../const";
+import { CIRCLE_OPTIONS, DIAMOND_OPTIONS, FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, RECTANGLE_OPTIONS, SHAPE_SIZE, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS, WORKSPACE_HEIGHT, WORKSPACE_NAME, WORKSPACE_WIDTH } from "../const";
 import { useCanvasEvents } from "./use-canvas-events";
 import { isTextType, mixColors } from "../utils";
 
@@ -110,6 +110,26 @@ const buildEditor = ({
       });
       canvas.renderAll();
     },
+    changeFontWeight: (value: number) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          // @ts-ignore
+          // Faulty TS library, fontWeight exists.
+          object.set({ fontWeight: value });
+        }
+      });
+      canvas.renderAll();
+    },
+    changeFontSize: (value: number) => {
+      canvas.getActiveObjects().forEach((object) => {
+        if (isTextType(object.type)) {
+          // @ts-ignore
+          // Faulty TS library, fontSize exists.
+          object.set({ fontSize: value });
+        }
+      });
+      canvas.renderAll();
+    },
     
     addCircle: () => {
       const object = new fabric.Circle({
@@ -195,7 +215,7 @@ const buildEditor = ({
 
       const colors = selectedObjects.map((object) => object.get("fill") as string).filter(Boolean);
 
-      const value = mixColors(colors) || fillColor;
+      const value = mixColors(colors) ?? fillColor;
 
       // Currently, gradients & patterns are not supported
       return value as string;
@@ -206,8 +226,7 @@ const buildEditor = ({
         return strokeColor;
       }
       const colors = selectedObjects.map((object) => object.get("stroke") as string).filter(Boolean);
-
-      const value = mixColors(colors) || strokeColor;
+      const value = mixColors(colors) ?? strokeColor;
 
       return value;
     },
@@ -218,7 +237,7 @@ const buildEditor = ({
         return strokeWidth;
       }
 
-      const value = selectedObject.get("strokeWidth") || strokeWidth;
+      const value = selectedObject.get("strokeWidth") ?? strokeWidth;
 
       return value;
     },
@@ -229,7 +248,7 @@ const buildEditor = ({
         return strokeDashArray;
       }
 
-      const value = selectedObject.get("strokeDashArray") || strokeDashArray;
+      const value = selectedObject.get("strokeDashArray") ?? strokeDashArray;
 
       return value;
     },
@@ -240,7 +259,7 @@ const buildEditor = ({
         return 1;
       }
 
-      const value = selectedObject.get("opacity") || 1;
+      const value = selectedObject.get("opacity") ?? 1;
 
       return value;
     },
@@ -254,7 +273,33 @@ const buildEditor = ({
 
       // @ts-ignore
       // Faulty TS library, fontFamily exists.
-      const value = selectedObject.get("fontFamily") || fontFamily;
+      const value = selectedObject.get("fontFamily") ?? fontFamily;
+
+      return value;
+    },
+    getActiveFontWeight: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return FONT_WEIGHT;
+    }
+
+      // @ts-ignore
+      // Faulty TS library, fontWeight exists.
+      const value = selectedObject.get("fontWeight") ?? FONT_WEIGHT;
+
+      return value;
+    },
+    getActiveFontSize: () => {
+      const selectedObject = selectedObjects[0];
+
+      if (!selectedObject) {
+        return FONT_SIZE;
+      }
+
+      // @ts-ignore
+      // Faulty TS library, fontSize exists.
+      const value = selectedObject.get("fontSize") ?? FONT_SIZE;
 
       return value;
     },
@@ -300,7 +345,7 @@ export const useEditor = (
         })
       }
       return undefined
-    }, [canvas, fillColor, selectedObjects, strokeColor, strokeDashArray, strokeWidth]);
+    }, [canvas, fillColor, fontFamily, selectedObjects, strokeColor, strokeDashArray, strokeWidth]);
 
   const { autoZoom } = useAutoResize({
     canvas,
