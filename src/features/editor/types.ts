@@ -58,6 +58,10 @@ export type ActiveTool =
     changeFontFamily: (value: string) => void;
     changeFontWeight: (value: number) => void;
     changeFontSize: (value: number) => void;
+    changeFontStyle: (value: string) => void;
+    changeFontLinethrough: (value: boolean) => void;
+    changeFontUnderline: (value: boolean) => void;
+    changeTextAlign: (value: string) => void;
     getActiveFillColor: () => string;
     getActiveStrokeColor: () => string;
     getActiveStrokeWidth: () => number;
@@ -66,6 +70,10 @@ export type ActiveTool =
     getActiveFontFamily: () => string;
     getActiveFontWeight: () => string;
     getActiveFontSize: () => number;
+    getActiveFontStyle: () => string;
+    getActiveFontLinethrough: () => boolean;
+    getActiveFontUnderline: () => boolean;
+    getActiveTextAlign: () => string;
     selectedObjects: fabric.Object[];
   };
   
