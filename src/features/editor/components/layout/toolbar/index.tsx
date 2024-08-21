@@ -9,7 +9,7 @@ import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import { BsBorderWidth } from "react-icons/bs";
 import { RxTransparencyGrid } from "react-icons/rx";
-import { AlignCenter, AlignLeft, AlignRight, ArrowDown, ArrowUp, ChevronDown } from "lucide-react";
+import { AlignCenter, AlignLeft, AlignRight, ArrowDown, ArrowUp, ChevronDown, Trash } from "lucide-react";
 import { FontSizeInput, FontWeightSelect } from "./components";
 import { isTextType } from "../../../utils";
 import { FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, STROKE_COLOR } from "@/features/editor/const";
@@ -373,6 +373,17 @@ export const Toolbar = ({
          </Hint>
         </div>
       )}
+      <div className="flex items-center h-full justify-center">
+        <Hint label="Delete" side={side} sideOffset={sideOffset}>
+          <Button
+            onClick={() => editor?.delete()}
+            size="icon"
+            variant="ghost"
+          >
+            <Trash className="size-4" />
+          </Button>
+        </Hint>
+      </div>
     </div>
   );
 };
