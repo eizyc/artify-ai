@@ -4,7 +4,7 @@ import { useAutoResize } from "@/features/editor/hooks/use-auto-resize";
 import { EditorHookProps, BuildEditorProps, Editor } from "@/features/editor/types";
 import { CIRCLE_OPTIONS, DIAMOND_OPTIONS, FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, RECTANGLE_OPTIONS, SHAPE_SIZE, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS, WORKSPACE_HEIGHT, WORKSPACE_NAME, WORKSPACE_WIDTH } from "../const";
 import { useCanvasEvents } from "./use-canvas-events";
-import { isTextType, mixColors } from "../utils";
+import { isTextType, mixColors, createFilter } from "../utils";
 
 const buildEditor = ({
   canvas,
@@ -174,6 +174,20 @@ const buildEditor = ({
         }
       });
       canvas.renderAll();
+    },
+    changeImageFilter: (value: string) => {
+      const objects = canvas.getActiveObjects();
+      objects.forEach((object) => {
+        if (object.type === "image") {
+          const imageObject = object as fabric.Image;
+
+          const effect = createFilter(value);
+
+          imageObject.filters = effect ? [effect] : [];
+          imageObject.applyFilters();
+          canvas.renderAll();
+        }
+      });
     },
 
     addCircle: () => {
@@ -416,6 +430,13 @@ const buildEditor = ({
 
       return value;
     },
+    getActiveImageFilter: () => {
+      let objects = canvas.getActiveObjects();
+      objects = objects.filter((object) => object.type === "image");
+      const selectedObject = selectedObjects?.[0] as (fabric.Image & { filters: { name: string }[] } | undefined);
+      return selectedObject?.filters?.[0]?.name ?? 'none';
+    },
+
     selectedObjects,
   }
 }

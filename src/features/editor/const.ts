@@ -13,6 +13,7 @@ export const FONT_FAMILY = "Arial";
 export const FONT_SIZE = 32;
 export const FONT_WEIGHT = 400;
 export const FONT_STROKE_WIDTH = 0;
+export const FILTER = "none";
 
 
 export const SHAPE_SIZE = 100;
@@ -122,4 +123,30 @@ export const FONTS = [
   "Lucida Sans Unicode",
   "Geneva",
   "Lucida Console",
+];
+
+export const FILTERS = [
+  "none",
+  "polaroid",
+  "sepia",
+  "kodachrome",
+  "contrast",
+  "brightness",
+  "greyscale",
+  "brownie",
+  "vintage",
+  "technicolor",
+  "pixelate",
+  "invert",
+  "blur",
+  "sharpen",
+  "emboss",
+  "removecolor",
+  "blacknwhite",
+  "vibrance",
+  "blendcolor",
+  "huerotate",
+  "resize",
+  "saturation",
+  "gamma",
 ];

@@ -64,6 +64,7 @@ export type ActiveTool =
     changeFontLinethrough: (value: boolean) => void;
     changeFontUnderline: (value: boolean) => void;
     changeTextAlign: (value: string) => void;
+    changeImageFilter: (value: string) => void;
     getActiveFillColor: () => string;
     getActiveStrokeColor: () => string;
     getActiveStrokeWidth: () => number;
@@ -76,6 +77,7 @@ export type ActiveTool =
     getActiveFontLinethrough: () => boolean;
     getActiveFontUnderline: () => boolean;
     getActiveTextAlign: () => string;
+    getActiveImageFilter: () => string;
     selectedObjects: fabric.Object[];
   };
   
