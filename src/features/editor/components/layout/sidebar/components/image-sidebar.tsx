@@ -12,6 +12,7 @@ import { ToolSidebarHeader } from "./tool-sidebar-header";
 import { useGetImages } from "@/features/images/api/use-get-images";
 
 import { cn } from "@/lib/utils";
+import { UploadButton } from "@/lib/uploadthing";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ImageSidebarProps {
@@ -42,6 +43,21 @@ export const ImageSidebar = ({
         title="Images"
         description="Add images to your canvas"
       />
+      <div className="p-4 border-b">
+        <UploadButton
+          appearance={{
+            button: "w-full text-sm font-medium",
+            allowedContent: "hidden"
+          }}
+          content={{
+            button: "Upload Image"
+          }}
+          endpoint="imageUploader"
+          onClientUploadComplete={(res) => {
+            editor?.addImage(res[0].url);
+          }}
+        />
+      </div>
       {isLoading && (
         <div className="flex items-center justify-center flex-1">
           <Loader className="size-4 text-muted-foreground animate-spin" />
