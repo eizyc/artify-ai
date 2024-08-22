@@ -44,8 +44,6 @@ export const useAutoResize = ({ canvas, container }: UseAutoResizeProps) => {
     // get the center of the workspace in the object in canvas coordinate.
     const workspaceCenter = localWorkspace.getCenterPoint();
 
-    console.log(canvas.height, canvas.width, workspaceCenter);
-
     // 6 numbers that represents a 2D transformation matrix
     // [horizontal scaling, vertical skewing, horizontal skewing, vertical scaling, horizontal translation, vertical translation]
     const viewportTransform = canvas.viewportTransform?.concat();

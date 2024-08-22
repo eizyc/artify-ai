@@ -252,6 +252,22 @@ const buildEditor = ({
 
       addToCanvas(object);
     },
+    addImage: (value)=> {
+      fabric.Image.fromURL(
+        value,
+        (image) => {
+          const workspace = getWorkspace();
+
+          image.scaleToWidth(workspace?.width || 0);
+          image.scaleToHeight(workspace?.height || 0);
+
+          addToCanvas(image);
+        },
+        {
+          crossOrigin: "anonymous",
+        },
+      );
+    },
     getActiveFillColor: () => {
 
       if (!selectedObjects?.length) {

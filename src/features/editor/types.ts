@@ -48,6 +48,7 @@ export type ActiveTool =
     addInverseTriangle: () => void;
     addDiamond: () => void;
     addText: (value: string, options?: ITextboxOptions) => void;
+    addImage: (value: string) => void;
     delete: () => void;
     bringForward: () => void;
     sendBackwards: () => void;
