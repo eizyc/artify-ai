@@ -10,8 +10,15 @@ const nextConfig = {
         protocol: "https",
         hostname: "utfs.io",
       },
+      {
+        protocol: "https",
+        hostname: "replicate.delivery"
+      },
     ],
   },
+  experimental: {
+    serverComponentsExternalPackages: ['sharp', 'onnxruntime-node'],
+},
 };
 
 export default nextConfig;

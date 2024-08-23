@@ -11,6 +11,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 + [hono](https://hono.dev/docs/guides/rpc#client)
 + [react-query](https://tanstack.com/query/latest/docs/framework/react/quick-start)
 + [uploadthing](https://docs.uploadthing.com/getting-started/appdir)
++ [replicate](https://replicate.com/black-forest-labs/flux-schnell?input=nodejs)
 ## Getting Started
 
 First, run the development server:
