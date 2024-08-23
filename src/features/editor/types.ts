@@ -25,6 +25,8 @@ export type ActiveTool =
 
 
   export type BuildEditorProps = {
+    copy: () => void;
+    paste: () => void;
     canvas: fabric.Canvas;
     fillColor: string;
     strokeColor: string;
@@ -40,6 +42,8 @@ export type ActiveTool =
   };
   
   export interface Editor {
+    onCopy: () => void;
+    onPaste: () => void;
     canvas: fabric.Canvas;
     addCircle: () => void;
     addSoftRectangle: () => void;

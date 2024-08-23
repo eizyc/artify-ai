@@ -5,8 +5,12 @@ import { EditorHookProps, BuildEditorProps, Editor } from "@/features/editor/typ
 import { CIRCLE_OPTIONS, DIAMOND_OPTIONS, FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, RECTANGLE_OPTIONS, SHAPE_SIZE, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS, WORKSPACE_HEIGHT, WORKSPACE_NAME, WORKSPACE_WIDTH } from "../const";
 import { useCanvasEvents } from "./use-canvas-events";
 import { isTextType, mixColors, createFilter } from "../utils";
+import { useHotkeys } from "./use-hotkeys";
+import { useClipboard } from "./use-clipboard";
 
 const buildEditor = ({
+  copy,
+  paste,
   canvas,
   fillColor,
   strokeColor,
@@ -43,6 +47,8 @@ const buildEditor = ({
 
 
   return {
+    onCopy: () => copy(),
+    onPaste: () => paste(),
     canvas,
     delete: () => {
       canvas.getActiveObjects().forEach((object) => canvas.remove(object));
@@ -460,10 +466,29 @@ export const useEditor = (
   const [strokeDashArray, setStrokeDashArray] = useState<number[]>(STROKE_DASH_ARRAY);
   const [fontFamily, setFontFamily] = useState(FONT_FAMILY);
 
+  const { autoZoom } = useAutoResize({
+    canvas,
+    container,
+  });
+
+  useCanvasEvents({
+    canvas,
+    setSelectedObjects,
+    clearSelectionCallback
+  });
+
+  const { copy, paste } = useClipboard({ canvas });
+  
+  useHotkeys({
+    copy,
+    paste,
+  });
 
   const editor = useMemo(() => {
       if (canvas) {
         return buildEditor({
+          copy,
+          paste,  
           canvas,
           fillColor,
           strokeColor,
@@ -479,18 +504,7 @@ export const useEditor = (
         })
       }
       return undefined
-    }, [canvas, fillColor, fontFamily, selectedObjects, strokeColor, strokeDashArray, strokeWidth]);
-
-  const { autoZoom } = useAutoResize({
-    canvas,
-    container,
-  });
-
-  useCanvasEvents({
-    canvas,
-    setSelectedObjects,
-    clearSelectionCallback
-  });
+    }, [canvas, copy, fillColor, fontFamily, paste, selectedObjects, strokeColor, strokeDashArray, strokeWidth]);
   
   const init = useCallback((
     ({
