@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { TbColorFilter } from "react-icons/tb"
 import { BsBorderWidth } from "react-icons/bs";
 import { RxTransparencyGrid } from "react-icons/rx";
-import { AlignCenter, AlignLeft, AlignRight, ArrowDown, ArrowUp, ChevronDown, Trash } from "lucide-react";
+import { AlignCenter, AlignLeft, AlignRight, ArrowDown, ArrowUp, ChevronDown, SquareSplitHorizontal, Trash } from "lucide-react";
 import { FontSizeInput, FontWeightSelect } from "./components";
 import { isTextType } from "../../../utils";
 import { FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, STROKE_COLOR } from "@/features/editor/const";
@@ -382,7 +382,7 @@ export const Toolbar = ({
       )}
       {onlyImage && (
         <div className="flex items-center h-full justify-center">
-          <Hint label="Filters" side="bottom" sideOffset={5}>
+          <Hint label="Filters" side={side} sideOffset={sideOffset}>
             <Button
               onClick={() => onChangeActiveTool("filter")}
               size="icon"
@@ -392,6 +392,22 @@ export const Toolbar = ({
               )}
             >
               <TbColorFilter className="size-4" />
+            </Button>
+          </Hint>
+        </div>
+      )}
+      {onlyImage && (
+        <div className="flex items-center h-full justify-center">
+          <Hint label="Remove background" side={side} sideOffset={sideOffset}>
+            <Button
+              onClick={() => onChangeActiveTool("remove-bg")}
+              size="icon"
+              variant="ghost"
+              className={cn(
+                activeTool === "remove-bg" && "bg-gray-100"
+              )}
+            >
+              <SquareSplitHorizontal className="size-4" />
             </Button>
           </Hint>
         </div>

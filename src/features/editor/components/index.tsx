@@ -17,6 +17,7 @@ import {
   ImageSidebar,
   FilterSidebar,
   AiSidebar,
+  RemoveBgSidebar,
 } from "@/features/editor/components/layout/sidebar/components";
 import { selectionDependentTools } from "../const";
 
@@ -89,6 +90,7 @@ export const Editor = () => {
         <ImageSidebar {...params}/>
         <FilterSidebar {...params}/>
         <AiSidebar {...params}/>
+        <RemoveBgSidebar {...params}/>
 
 
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">

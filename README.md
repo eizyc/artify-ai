@@ -12,6 +12,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 + [react-query](https://tanstack.com/query/latest/docs/framework/react/quick-start)
 + [uploadthing](https://docs.uploadthing.com/getting-started/appdir)
 + [replicate](https://replicate.com/black-forest-labs/flux-schnell?input=nodejs)
++ [remove-background-web](https://huggingface.co/spaces/Xenova/remove-background-web)
++ [xenova remove background](https://github.com/xenova/transformers.js/blob/main/examples/remove-background-client/main.js)
 ## Getting Started
 
 First, run the development server:

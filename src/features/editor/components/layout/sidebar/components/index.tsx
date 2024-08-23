@@ -8,3 +8,4 @@ export { FontSidebar } from "./font-sidebar";
 export { ImageSidebar } from "./image-sidebar";
 export { FilterSidebar } from "./filter-sidebar";
 export { AiSidebar } from "./ai-sidebar";
+export { RemoveBgSidebar } from "./remove-bg-sidebar";
