@@ -14,6 +14,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 + [replicate](https://replicate.com/black-forest-labs/flux-schnell?input=nodejs)
 + [remove-background-web](https://huggingface.co/spaces/Xenova/remove-background-web)
 + [xenova remove background](https://github.com/xenova/transformers.js/blob/main/examples/remove-background-client/main.js)
++ [react-hydration-error / only render client](https://nextjs.org/docs/messages/react-hydration-error)
 ## Getting Started
 
 First, run the development server:
