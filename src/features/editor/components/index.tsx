@@ -19,6 +19,7 @@ import {
   AiSidebar,
   RemoveBgSidebar,
   DrawSidebar,
+  SettingsSidebar,
 } from "@/features/editor/components/layout/sidebar/components";
 import { selectionDependentTools } from "../const";
 
@@ -101,6 +102,7 @@ export const Editor = () => {
         <AiSidebar {...params}/>
         <RemoveBgSidebar {...params}/>
         <DrawSidebar {...params}/>
+        <SettingsSidebar {...params}/>
 
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar {...params} />

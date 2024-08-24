@@ -9,6 +9,7 @@ import { useHotkeys } from "./use-hotkeys";
 import { useClipboard } from "./use-clipboard";
 
 const buildEditor = ({
+  autoZoom,
   copy,
   paste,
   canvas,
@@ -47,6 +48,19 @@ const buildEditor = ({
 
 
   return {
+    autoZoom,
+    getWorkspace,
+    changeBackground: (value: string) => {
+      const workspace = getWorkspace();
+      workspace?.set({ fill: value });
+      canvas.renderAll();
+    },
+    changeSize: (value: { width: number; height: number }) => {
+      const workspace = getWorkspace();
+
+      workspace?.set(value);
+      autoZoom();
+    },
     enableDrawingMode: () => {
       canvas.discardActiveObject();
       canvas.renderAll();
@@ -497,6 +511,7 @@ export const useEditor = (
   const editor = useMemo(() => {
       if (canvas) {
         return buildEditor({
+          autoZoom,
           copy,
           paste,  
           canvas,
@@ -514,7 +529,7 @@ export const useEditor = (
         })
       }
       return undefined
-    }, [canvas, copy, fillColor, fontFamily, paste, selectedObjects, strokeColor, strokeDashArray, strokeWidth]);
+    }, [autoZoom, canvas, copy, fillColor, fontFamily, paste, selectedObjects, strokeColor, strokeDashArray, strokeWidth]);
   
   const init = useCallback((
     ({

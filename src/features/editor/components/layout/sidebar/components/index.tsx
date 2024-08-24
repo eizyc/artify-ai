@@ -10,3 +10,4 @@ export { FilterSidebar } from "./filter-sidebar";
 export { AiSidebar } from "./ai-sidebar";
 export { RemoveBgSidebar } from "./remove-bg-sidebar";
 export { DrawSidebar } from "./draw-sidebar";
+export { SettingsSidebar } from "./settings-sidebar";
