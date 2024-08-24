@@ -18,6 +18,7 @@ import {
   FilterSidebar,
   AiSidebar,
   RemoveBgSidebar,
+  DrawSidebar,
 } from "@/features/editor/components/layout/sidebar/components";
 import { selectionDependentTools } from "../const";
 
@@ -41,13 +42,21 @@ export const Editor = () => {
 
   const onChangeActiveTool = useCallback(
     (tool: ActiveTool) => {
+      if (tool === "draw") {
+        editor?.enableDrawingMode();
+      }
+  
+      if (activeTool === "draw") {
+        editor?.disableDrawingMode();
+      }
+
       if (tool === activeTool) {
         return setActiveTool("select");
       }
 
       setActiveTool(tool);
     },
-    [activeTool]
+    [activeTool, editor]
   );
 
   useEffect(() => {
@@ -91,7 +100,7 @@ export const Editor = () => {
         <FilterSidebar {...params}/>
         <AiSidebar {...params}/>
         <RemoveBgSidebar {...params}/>
-
+        <DrawSidebar {...params}/>
 
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar {...params} />

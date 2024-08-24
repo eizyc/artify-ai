@@ -28,6 +28,7 @@ export const useClipboard = ({
       });
 
       if (clonedObj.type === "activeSelection") {
+        // The active selection has a mandatory canvas property that has to be the actual canvas or it will not work
         clonedObj.canvas = canvas;
         clonedObj.forEachObject((obj: any) => {
           canvas?.add(obj);

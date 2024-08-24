@@ -42,6 +42,8 @@ export type ActiveTool =
   };
   
   export interface Editor {
+    enableDrawingMode: () => void;
+    disableDrawingMode: () => void;
     onCopy: () => void;
     onPaste: () => void;
     canvas: fabric.Canvas;
