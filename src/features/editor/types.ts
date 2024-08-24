@@ -45,6 +45,8 @@ export type ActiveTool =
   export interface Editor {
     getWorkspace: () => fabric.Object | undefined;
     autoZoom: () => void;
+    zoomIn: () => void;
+    zoomOut: () => void;
     changeBackground: (value: string) => void;
     changeSize: (value: { width: number; height: number }) => void;
     enableDrawingMode: () => void;
