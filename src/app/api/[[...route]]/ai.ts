@@ -7,6 +7,7 @@ import { predict } from "@/lib/remove-bg";
 import { utapi } from "./uploadthing";
 import { getImageInfo } from "@/lib/utils";
 
+const text2imgURL = `${process.env.TEXT2IMG_MODEL_ADDRESS}`;
 const app = new Hono()
   .post(
     "/generate-image",
@@ -21,17 +22,25 @@ const app = new Hono()
 
       const input = {
         prompt,
-        num_outputs: 1,
-        aspect_ratio: "1:1",
-        output_format: "webp",
-        output_quality: 80
       };
       
-      const output = await replicate.run("black-forest-labs/flux-schnell", { input });
-      
-      const res = output as Array<string>;
+      const res = await fetch(text2imgURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      }).then((res) => res.arrayBuffer());
 
-      return c.json({ data: res[0] });
+      const output = res as unknown as ArrayBuffer | Uint8Array;
+
+      const imgName = `text2img-${prompt}.png`
+      const type =  `image/png`
+      const blob = new Blob([output], { type });
+      const imageFile = new File([blob], imgName, { type });
+      const imgUrl = await uploadImg(imageFile);
+
+      return c.json({ data: imgUrl });
     },
   )
   .post(
@@ -54,17 +63,23 @@ const app = new Hono()
       const type =  `image/${extension}`
       const blob = new Blob([output], { type });
       const imageFile = new File([blob], imgName, { type });
+      const imgUrl = await uploadImg(imageFile);
 
-      const response = await utapi.uploadFiles(imageFile);
-      if (response.error) {
-        console.log(response.error)
-        throw new Error("Failed to upload remove bg image");
-      }
-
-      const { data } = await response as any;
-      const { url:imgUrl } = data as { url: string };
       return c.json({ data: imgUrl });
     },
   );
 
 export default app;
+
+
+
+const uploadImg = async (imgFile: File) => {
+  const response = await utapi.uploadFiles(imgFile);
+  if (response.error) {
+    console.log(response.error)
+    throw new Error("Failed to upload remove bg image");
+  }
+
+  const { data } = await response as any;
+  return data.url
+}

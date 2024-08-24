@@ -11,7 +11,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 + [hono](https://hono.dev/docs/guides/rpc#client)
 + [react-query](https://tanstack.com/query/latest/docs/framework/react/quick-start)
 + [uploadthing](https://docs.uploadthing.com/getting-started/appdir)
-+ [replicate](https://replicate.com/black-forest-labs/flux-schnell?input=nodejs)
++ <del>[replicate (Free Limited Times)](https://replicate.com/black-forest-labs/flux-schnell?input=nodejs)<del>
++ [FREE TEXT2IMG](https://www.reddit.com/r/StableDiffusion/comments/1cx7wuw/is_there_any_text_to_image_api_for_free/)
 + [remove-background-web](https://huggingface.co/spaces/Xenova/remove-background-web)
 + [xenova remove background](https://github.com/xenova/transformers.js/blob/main/examples/remove-background-client/main.js)
 + [react-hydration-error / only render client](https://nextjs.org/docs/messages/react-hydration-error)
