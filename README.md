@@ -16,6 +16,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 + [remove-background-web](https://huggingface.co/spaces/Xenova/remove-background-web)
 + [xenova remove background](https://github.com/xenova/transformers.js/blob/main/examples/remove-background-client/main.js)
 + [react-hydration-error / only render client](https://nextjs.org/docs/messages/react-hydration-error)
++ [auth.js](https://authjs.dev/getting-started/authentication/oauth)
 ## Getting Started
 
 First, run the development server:
