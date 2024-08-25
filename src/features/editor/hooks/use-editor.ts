@@ -565,8 +565,12 @@ export const useEditor = (
   const { copy, paste } = useClipboard({ canvas });
   
   useHotkeys({
+    undo,
+    redo,
     copy,
     paste,
+    save,
+    canvas,
   });
 
   const editor = useMemo(() => {
