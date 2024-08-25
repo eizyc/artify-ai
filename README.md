@@ -17,6 +17,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 + [xenova remove background](https://github.com/xenova/transformers.js/blob/main/examples/remove-background-client/main.js)
 + [react-hydration-error / only render client](https://nextjs.org/docs/messages/react-hydration-error)
 + [auth.js](https://authjs.dev/getting-started/authentication/oauth)
++ [neon DB](https://console.neon.tech/)
++ [drizzle ORM](https://orm.drizzle.team/docs/get-started-postgresql#neon-postgres)
++ [authjs + drizzle](https://authjs.dev/getting-started/adapters/drizzle)
 ## Getting Started
 
 First, run the development server:

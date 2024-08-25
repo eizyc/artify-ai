@@ -6,10 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "bun x drizzle-kit generate",
+    "db:migrate": "bun x drizzle-kit migrate",
+    "db:studio": "bun x drizzle-kit studio"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.4.2",
     "@hono/zod-validator": "^0.2.2",
+    "@neondatabase/serverless": "^0.9.4",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-scroll-area": "^1.1.0",
@@ -23,6 +28,8 @@
     "@xenova/transformers": "^2.17.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.33.0",
     "fabric": "5.4.0-browser",
     "formdata-node": "^6.0.3",
     "hono": "^4.5.7",
@@ -52,6 +59,7 @@
     "@types/react": "^18",
     "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18",
+    "drizzle-kit": "^0.24.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
