@@ -25,6 +25,8 @@ export const useAutoResize = ({ canvas, container }: UseAutoResizeProps) => {
       .getObjects()
       .find((object) => object.name === WORKSPACE_NAME);
 
+    if (!localWorkspace) return;
+
     // http://fabricjs.com/docs/fabric.util.html#.findScaleToFit 
     // @ts-ignore
     const scale = fabric.util.findScaleToFit(localWorkspace, {

@@ -2,13 +2,18 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { fabric } from "fabric";
 import { useAutoResize } from "@/features/editor/hooks/use-auto-resize";
 import { EditorHookProps, BuildEditorProps, Editor } from "@/features/editor/types";
-import { CIRCLE_OPTIONS, DIAMOND_OPTIONS, FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, RECTANGLE_OPTIONS, SHAPE_SIZE, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS, WORKSPACE_HEIGHT, WORKSPACE_NAME, WORKSPACE_WIDTH } from "../const";
+import { CIRCLE_OPTIONS, DIAMOND_OPTIONS, FILL_COLOR, FONT_FAMILY, FONT_SIZE, FONT_WEIGHT, JSON_KEYS, RECTANGLE_OPTIONS, SHAPE_SIZE, STROKE_COLOR, STROKE_DASH_ARRAY, STROKE_WIDTH, TEXT_OPTIONS, TRIANGLE_OPTIONS, WORKSPACE_HEIGHT, WORKSPACE_NAME, WORKSPACE_WIDTH } from "../const";
 import { useCanvasEvents } from "./use-canvas-events";
 import { isTextType, mixColors, createFilter } from "../utils";
 import { useHotkeys } from "./use-hotkeys";
 import { useClipboard } from "./use-clipboard";
+import { useHistory } from "./use-history";
 
 const buildEditor = ({
+  undo,
+  redo,
+  canRedo,
+  canUndo,
   autoZoom,
   copy,
   paste,
@@ -46,8 +51,13 @@ const buildEditor = ({
     canvas.setActiveObject(object);
   };
 
+  const trigeerModifyEvents = () => {
+    canvas.fire("object:modified", { target: canvas.getActiveObject() });
+  }
 
   return {
+    canUndo,
+    canRedo,
     autoZoom,
     getWorkspace,
     zoomIn: () => {
@@ -72,12 +82,14 @@ const buildEditor = ({
       const workspace = getWorkspace();
       workspace?.set({ fill: value });
       canvas.renderAll();
+      trigeerModifyEvents();
     },
     changeSize: (value: { width: number; height: number }) => {
       const workspace = getWorkspace();
 
       workspace?.set(value);
       autoZoom();
+      trigeerModifyEvents();
     },
     enableDrawingMode: () => {
       canvas.discardActiveObject();
@@ -91,6 +103,8 @@ const buildEditor = ({
     },
     onCopy: () => copy(),
     onPaste: () => paste(),
+    onUndo: () => undo(),
+    onRedo: () => redo(),
     canvas,
     delete: () => {
       canvas.getActiveObjects().forEach((object) => canvas.remove(object));
@@ -106,6 +120,7 @@ const buildEditor = ({
       
       const workspace = getWorkspace();
       workspace?.sendToBack();
+      trigeerModifyEvents();
     },
     sendBackwards: () => {
       canvas.getActiveObjects().forEach((object) => {
@@ -115,12 +130,14 @@ const buildEditor = ({
       canvas.renderAll();
       const workspace = getWorkspace();
       workspace?.sendToBack();
+      trigeerModifyEvents();
     },
     changeFillColor: (value: string) => {
       setFillColor(value);
       canvas.getActiveObjects().forEach((object) => {
         object.set({ fill: value });
       });
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeStrokeColor: (value: string) => {
@@ -129,6 +146,7 @@ const buildEditor = ({
         object.set({ stroke: value });
       });
       canvas.freeDrawingBrush.color = value;
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeStrokeWidth: (value: number) => {
@@ -137,6 +155,7 @@ const buildEditor = ({
         object.set({ strokeWidth: value });
       });
       canvas.freeDrawingBrush.width = value;
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeStrokeDashArray: (value: number[]) => {
@@ -144,12 +163,14 @@ const buildEditor = ({
       canvas.getActiveObjects().forEach((object) => {
         object.set({ strokeDashArray: value });
       });
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeOpacity: (value: number) => {
       canvas.getActiveObjects().forEach((object) => {
         object.set({ opacity: value });
       });
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeFontFamily: (value: string) => {
@@ -161,6 +182,7 @@ const buildEditor = ({
           object.set({ fontFamily: value });
         }
       });
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeFontWeight: (value: number) => {
@@ -171,6 +193,7 @@ const buildEditor = ({
           object.set({ fontWeight: value });
         }
       });
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeFontSize: (value: number) => {
@@ -181,6 +204,7 @@ const buildEditor = ({
           object.set({ fontSize: value });
         }
       });
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeFontStyle: (value: string) => {
@@ -191,6 +215,7 @@ const buildEditor = ({
           object.set({ fontStyle: value });
         }
       });
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeFontLinethrough: (value: boolean) => {
@@ -201,6 +226,7 @@ const buildEditor = ({
           object.set({ linethrough: value });
         }
       });
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeFontUnderline: (value: boolean) => {
@@ -211,6 +237,7 @@ const buildEditor = ({
           object.set({ underline: value });
         }
       });
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeTextAlign: (value: string) => {
@@ -221,6 +248,7 @@ const buildEditor = ({
           object.set({ textAlign: value });
         }
       });
+      trigeerModifyEvents();
       canvas.renderAll();
     },
     changeImageFilter: (value: string) => {
@@ -236,6 +264,7 @@ const buildEditor = ({
           canvas.renderAll();
         }
       });
+      trigeerModifyEvents();
     },
 
     addCircle: () => {
@@ -513,7 +542,21 @@ export const useEditor = (
     container,
   });
 
+  const { 
+    save, 
+    canRedo, 
+    canUndo, 
+    undo, 
+    redo,
+    canvasHistory,
+    setHistoryIndex,
+  } = useHistory({ 
+    canvas,
+    autoZoom
+  });
+
   useCanvasEvents({
+    save,
     canvas,
     setSelectedObjects,
     clearSelectionCallback
@@ -529,6 +572,10 @@ export const useEditor = (
   const editor = useMemo(() => {
       if (canvas) {
         return buildEditor({
+          undo,
+          redo,
+          canUndo,
+          canRedo,
           autoZoom,
           copy,
           paste,  
@@ -547,7 +594,7 @@ export const useEditor = (
         })
       }
       return undefined
-    }, [autoZoom, canvas, copy, fillColor, fontFamily, paste, selectedObjects, strokeColor, strokeDashArray, strokeWidth]);
+    }, [autoZoom, canRedo, canUndo, canvas, copy, fillColor, fontFamily, paste, redo, selectedObjects, strokeColor, strokeDashArray, strokeWidth, undo]);
   
   const init = useCallback((
     ({
@@ -590,8 +637,14 @@ export const useEditor = (
       setCanvas(initialCanvas);
       setContainer(initialContainer);
 
+      const currentState = JSON.stringify(
+        initialCanvas.toJSON(JSON_KEYS)
+      );
 
-    }), [])
+      canvasHistory.current = [currentState];
+      setHistoryIndex(0);
+
+    }), [canvasHistory, setHistoryIndex])
 
   return {
     init,

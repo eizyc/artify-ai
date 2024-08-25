@@ -25,6 +25,10 @@ export type ActiveTool =
 
 
   export type BuildEditorProps = {
+    undo: () => void;
+    redo: () => void;
+    canUndo: () => boolean;
+    canRedo: () => boolean;
     autoZoom: () => void;
     copy: () => void;
     paste: () => void;
@@ -43,6 +47,10 @@ export type ActiveTool =
   };
   
   export interface Editor {
+    onUndo: () => void;
+    onRedo: () => void;
+    canUndo: () => boolean;
+    canRedo: () => boolean;
     getWorkspace: () => fabric.Object | undefined;
     autoZoom: () => void;
     zoomIn: () => void;

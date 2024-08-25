@@ -2,7 +2,7 @@
 
 import { ChevronDown, Download, MousePointerClick, Redo2, Undo2 } from "lucide-react";
 import { Logo } from "./logo";
-import { ActiveTool } from "@/features/editor/types";
+import { ActiveTool, Editor } from "@/features/editor/types";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -17,11 +17,13 @@ import { Hint } from "@/components/hint";
 import { BsCloudCheck } from "react-icons/bs";
 
 interface NavbarProps {
+  editor: Editor | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
 };
 
 export const Navbar = ({
+  editor,
   activeTool,
   onChangeActiveTool
 }: NavbarProps) => {
@@ -65,23 +67,25 @@ export const Navbar = ({
           </Button>
           </Hint>
           <Hint label="Undo" side="bottom" sideOffset={10}>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {}}
-            >
-              <Undo2 className="size-4" />
-            </Button>
-          </Hint>
-          <Hint label="Redo" side="bottom" sideOffset={10}>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {}}
-            >
-              <Redo2 className="size-4" />
-            </Button>
-          </Hint>
+          <Button
+            disabled={!editor?.canUndo()}
+            variant="ghost"
+            size="icon"
+            onClick={() => editor?.onUndo()}
+          >
+            <Undo2 className="size-4" />
+          </Button>
+        </Hint>
+        <Hint label="Redo" side="bottom" sideOffset={10}>
+          <Button
+            disabled={!editor?.canRedo()}
+            variant="ghost"
+            size="icon"
+            onClick={() => editor?.onRedo()}
+          >
+            <Redo2 className="size-4" />
+          </Button>
+        </Hint>
           <Separator orientation="vertical" className="mx-2" />
           <div className="flex items-center gap-x-2">
             <BsCloudCheck className="size-[20px] text-muted-foreground" />
