@@ -1,3 +1,4 @@
+import { uuid } from "uuidv4";
 import { fabric } from "fabric";
 import { RGBColor } from "react-color";
 
@@ -142,4 +143,14 @@ export const createFilter = (value: string) => {
   }
 
   return effect;
+};
+
+export const downloadFile = (file: string, type: string) => {
+  const anchorElement = document.createElement("a");
+
+  anchorElement.href = file;
+  anchorElement.download = `${uuid()}.${type}`;
+  document.body.appendChild(anchorElement);
+  anchorElement.click();
+  anchorElement.remove();
 };
