@@ -5,6 +5,7 @@ import { uploadRouter } from "./uploadthing";
 
 import ai from "./ai";
 import images from "./images";
+import users from "./users";
 
 
 // Revert to "edge" if planning on running on the edge
@@ -25,6 +26,7 @@ const routes = app
   .route("/ai", ai)
   .route("/images", images)
   .route("/uploadthing",ut)
+  .route("/users", users);
 
 export const GET = handle(app);
 export const POST = handle(app);

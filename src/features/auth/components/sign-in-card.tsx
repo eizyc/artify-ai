@@ -5,7 +5,7 @@
 // When in client, use Client API:
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { TriangleAlert } from "lucide-react";
@@ -26,8 +26,28 @@ export const SignInCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const params = useSearchParams();
+  const error = params.get("error");
+  const code = params.get("code");
+
+  const errMsg = useMemo(() => {
+    return code?? "Invalid email or password"
+  },[code])
+
   const onProviderSignIn = (provider: "github" | "google") => {
     signIn(provider, { callbackUrl: "/" });
+  };
+
+  const onCredentialSignIn = (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+
+    signIn("credentials", {
+      email: email,
+      password: password,
+      callbackUrl: "/",
+    });
   };
 
   return (
@@ -40,8 +60,14 @@ export const SignInCard = () => {
           Use your email or another service to continue
         </CardDescription>
       </CardHeader>
+      {!!error && (
+        <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
+          <TriangleAlert className="size-4" />
+          <p>{errMsg}</p>
+        </div>
+      )}
       <CardContent className="space-y-5 px-0 pb-0">
-        <form onSubmit={()=>{}} className="space-y-2.5">
+        <form onSubmit={onCredentialSignIn} className="space-y-2.5">
           <Input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
