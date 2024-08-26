@@ -3,7 +3,7 @@ import { Editor } from '@/features/editor/components'
 
 const EditorProjectIdPage = async () => {
 
-  await protectServer()
+  // await protectServer()
   
   return (
       <Editor />

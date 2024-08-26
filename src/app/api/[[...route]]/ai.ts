@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
+import { verifyAuth } from "@hono/auth-js";
 
-import { replicate } from "@/lib/replicate";
 import { predict } from "@/lib/remove-bg";
 import { utapi } from "./uploadthing";
 import { getImageInfo } from "@/lib/utils";
@@ -11,6 +11,7 @@ const text2imgURL = `${process.env.TEXT2IMG_MODEL_ADDRESS}`;
 const app = new Hono()
   .post(
     "/generate-image",
+    verifyAuth(),
     zValidator(
       "json",
       z.object({
@@ -45,6 +46,7 @@ const app = new Hono()
   )
   .post(
     "/remove-bg",
+    verifyAuth(),
     zValidator(
       "json",
       z.object({
