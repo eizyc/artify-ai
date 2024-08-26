@@ -16,6 +16,7 @@ import { CiFileOn } from "react-icons/ci";
 import { cn } from "@/lib/utils";
 import { Hint } from "@/components/hint";
 import { BsCloudCheck } from "react-icons/bs";
+import { UserButton } from "@/features/auth/components/user-button";
 
 interface NavbarProps {
   editor: Editor | undefined;
@@ -167,6 +168,7 @@ export const Navbar = ({
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+            <UserButton />
            </div>
       </div>
     </nav>
