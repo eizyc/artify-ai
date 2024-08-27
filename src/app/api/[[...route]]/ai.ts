@@ -75,7 +75,7 @@ export default app;
 
 
 
-const uploadImg = async (imgFile: File) => {
+const uploadImg = async (imgFile: File) : Promise<string> => {
   const response = await utapi.uploadFiles(imgFile);
   if (response.error) {
     console.log(response.error)

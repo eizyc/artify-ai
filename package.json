@@ -34,6 +34,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.33.0",
+    "drizzle-zod": "^0.5.1",
     "fabric": "5.4.0-browser",
     "formdata-node": "^6.0.3",
     "hono": "^4.5.7",

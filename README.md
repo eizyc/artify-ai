@@ -26,6 +26,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 + [drizzle ORM](https://orm.drizzle.team/docs/get-started-postgresql#neon-postgres)
 + [authjs + drizzle](https://authjs.dev/getting-started/adapters/drizzle)
 + [Auth.js middleware for Hono To Protect API Access](https://github.com/honojs/middleware/tree/main/packages/auth-js)
++ [Foreign keys & Relations DIFF](https://orm.drizzle.team/docs/rqb#foreign-keys)
 ## Getting Started
 
 First, run the development server:

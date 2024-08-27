@@ -8,6 +8,7 @@ import authConfig from "@/auth.config";
 import ai from "./ai";
 import images from "./images";
 import users from "./users";
+import projects from "./projects";
 
 
 
@@ -37,7 +38,8 @@ const routes = app
   .route("/ai", ai)
   .route("/images", images)
   .route("/uploadthing",ut)
-  .route("/users", users);
+  .route("/users", users)
+  .route("/projects", projects);
 
 export const GET = handle(app);
 export const POST = handle(app);

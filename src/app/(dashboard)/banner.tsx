@@ -4,10 +4,27 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { GLOBAL_NAME } from "@/lib/const";
+import { useCreateProject } from "@/features/projects/api/use-create-project";
+import { useRouter } from "next/navigation";
 
 export const Banner = () => {
+  const router = useRouter();
+  const mutation = useCreateProject();
 
   const onClick = () => {
+    mutation.mutate(
+      {
+        name: "Untitled project",
+        json: "",
+        width: 900,
+        height: 1200,
+      },
+      {
+        onSuccess: ({ data }) => {
+          router.push(`/editor/${data.id}`);
+        },
+      },
+    );
   };
 
   return (
