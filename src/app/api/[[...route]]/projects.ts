@@ -8,6 +8,38 @@ import { db } from "@/db/drizzle";
 import { projects, projectsInsertSchema } from "@/db/schema";
 
 const app = new Hono()
+  .get(
+    "/",
+    verifyAuth(),
+    zValidator(
+      "query",
+      z.object({
+        page: z.coerce.number(),
+        limit: z.coerce.number(),
+      })
+    ),
+    async (c) => {
+      const auth = c.get("authUser");
+      const { page, limit } = c.req.valid("query");
+
+      if (!auth.token?.id) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      const data = await db
+        .select()
+        .from(projects)
+        .where(eq(projects.userId, auth.token.id))
+        .limit(limit)
+        .offset((page - 1) * limit)
+        .orderBy(desc(projects.updatedAt));
+
+      return c.json({
+        data,
+        nextPage: data.length === limit ? page + 1 : null,
+      });
+    }
+  )
   .post(
     "/",
     verifyAuth(),
@@ -18,7 +50,7 @@ const app = new Hono()
         json: true,
         width: true,
         height: true,
-      }),
+      })
     ),
     async (c) => {
       const auth = c.get("authUser");
@@ -46,6 +78,79 @@ const app = new Hono()
       }
 
       return c.json({ data: data[0] });
+    }
+  )
+  .delete(
+    "/:id",
+    verifyAuth(),
+    zValidator("param", z.object({ id: z.string() })),
+    async (c) => {
+      const auth = c.get("authUser");
+      const { id } = c.req.valid("param");
+
+      if (!auth.token?.id) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      const data = await db
+        .delete(projects)
+        .where(
+          and(
+            eq(projects.id, id),
+            eq(projects.userId, auth.token.id),
+          ),
+        )
+        .returning();
+
+      if (data.length === 0) {
+        return c.json({ error: "Not found" }, 404);
+      }
+
+      return c.json({ data: { id } });
+    },
+  )
+  .post(
+    "/:id/duplicate",
+    verifyAuth(),
+    zValidator("param", z.object({ id: z.string() })),
+    async (c) => {
+      const auth = c.get("authUser");
+      const { id } = c.req.valid("param");
+
+      if (!auth.token?.id) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      const data = await db
+        .select()
+        .from(projects)
+        .where(
+          and(
+            eq(projects.id, id),
+            eq(projects.userId, auth.token.id),
+          ),
+        );
+
+      if (data.length === 0) {
+        return c.json({ error:" Not found" }, 404);
+      }
+
+      const project = data[0];
+
+      const duplicateData = await db
+        .insert(projects)
+        .values({
+          name: `Copy of ${project.name}`,
+          json: project.json,
+          width: project.width,
+          height: project.height,
+          userId: auth.token.id,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        })
+        .returning();
+
+      return c.json({ data: duplicateData[0] });
     },
   )
   .get(
@@ -63,27 +168,19 @@ const app = new Hono()
       const data = await db
         .select()
         .from(projects)
-        .where(
-          and(
-            eq(projects.id, id),
-            eq(projects.userId, auth.token.id)
-          )
-        );
+        .where(and(eq(projects.id, id), eq(projects.userId, auth.token.id)));
 
       if (data.length === 0) {
         return c.json({ error: "Not found" }, 404);
       }
 
       return c.json({ data: data[0] });
-    },
+    }
   )
   .patch(
     "/:id",
     verifyAuth(),
-    zValidator(
-      "param",
-      z.object({ id: z.string() }),
-    ),
+    zValidator("param", z.object({ id: z.string() })),
     zValidator(
       "json",
       projectsInsertSchema
@@ -110,12 +207,7 @@ const app = new Hono()
           ...values,
           updatedAt: new Date(),
         })
-        .where(
-          and(
-            eq(projects.id, id),
-            eq(projects.userId, auth.token.id),
-          ),
-        )
+        .where(and(eq(projects.id, id), eq(projects.userId, auth.token.id)))
         .returning();
 
       if (data.length === 0) {
@@ -123,7 +215,7 @@ const app = new Hono()
       }
 
       return c.json({ data: data[0] });
-    },
-  )
+    }
+  );
 
 export default app;
