@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { GLOBAL_NAME } from "@/lib/const";
 
 export const Logo = () => {
   return (
@@ -8,7 +9,7 @@ export const Logo = () => {
         <Image
           src="/logo.svg"
           fill
-          alt="Image AI"
+          alt={GLOBAL_NAME}
           className="shrink-0 hover:opacity-75 transition"
         />
       </div>
