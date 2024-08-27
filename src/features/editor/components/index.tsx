@@ -5,6 +5,7 @@ import { Toolbar } from "@/features/editor/components/layout/toolbar";
 import { useEditor } from "@/features/editor/hooks/use-editor";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
+import debounce from "lodash.debounce";
 import { ActiveTool } from "@/features/editor/types";
 import {
   ShapeSidebar,
@@ -21,9 +22,30 @@ import {
   DrawSidebar,
   SettingsSidebar,
 } from "@/features/editor/components/layout/sidebar/components";
+import { ResponseType } from "@/features/projects/api/use-get-project";
 import { selectionDependentTools } from "../const";
+import { useUpdateProject } from "@/features/projects/api/use-update-project";
 
-export const Editor = () => {
+interface EditorProps {
+  initialData?: ResponseType["data"];
+};
+
+export const Editor = ({ initialData }: EditorProps) => {
+  const { mutate } = useUpdateProject(initialData?.id);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSave = useCallback(
+    debounce(
+      (values: { 
+        json: string,
+        height: number,
+        width: number,
+      }) => {
+        mutate(values);
+    },
+    2000
+  ), [mutate]);
+
   const canvasRef = useRef(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +59,11 @@ export const Editor = () => {
   }, [activeTool]);
   
   const { init, editor } = useEditor({
+    defaultState: initialData?.json,
+    defaultHeight: initialData?.height,
+    defaultWidth: initialData?.width,
     clearSelectionCallback: onClearSelection,
+    saveCallback: debouncedSave,
   });
 
 
@@ -118,3 +144,4 @@ export const Editor = () => {
     </div>
   );
 };
+

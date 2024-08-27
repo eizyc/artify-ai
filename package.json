@@ -39,6 +39,7 @@
     "formdata-node": "^6.0.3",
     "hono": "^4.5.7",
     "jsdom": "^24.1.1",
+    "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.427.0",
     "material-colors": "^1.2.6",
     "next": "14.2.5",
@@ -62,6 +63,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/fabric": "5.3.0",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/material-colors": "^1.2.3",
     "@types/node": "^20",
     "@types/react": "^18",

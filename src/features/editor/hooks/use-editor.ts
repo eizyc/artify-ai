@@ -8,6 +8,7 @@ import { isTextType, mixColors, createFilter, downloadFile } from "../utils";
 import { useHotkeys } from "./use-hotkeys";
 import { useClipboard } from "./use-clipboard";
 import { useHistory } from "./use-history";
+import { useLoadState } from "./use-load-state";
 
 const buildEditor = ({
   undo,
@@ -594,13 +595,17 @@ const buildEditor = ({
 }
 export const useEditor = (
   {
+    defaultState,
     defaultHeight,
     defaultWidth,
-    clearSelectionCallback
+    clearSelectionCallback,
+    saveCallback
   }: EditorHookProps
 ) => {
-  // const initialWidth = useRef(defaultWidth);
-  // const initialHeight = useRef(defaultHeight);
+  // To aviod the API fetch trigger re-render, which will cause lose progress, so use ref to de-reactive it.
+  const initialState = useRef(defaultState);
+  const initialWidth = useRef(defaultWidth);
+  const initialHeight = useRef(defaultHeight);
 
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
@@ -627,7 +632,8 @@ export const useEditor = (
     setHistoryIndex,
   } = useHistory({ 
     canvas,
-    autoZoom
+    autoZoom,
+    saveCallback
   });
 
   useCanvasEvents({
@@ -646,6 +652,14 @@ export const useEditor = (
     paste,
     save,
     canvas,
+  });
+
+  useLoadState({
+    canvas,
+    autoZoom,
+    initialState,
+    canvasHistory,
+    setHistoryIndex,
   });
 
   const editor = useMemo(() => {
@@ -697,8 +711,8 @@ export const useEditor = (
       });
 
       const initialWorkspace = new fabric.Rect({
-        width: WORKSPACE_WIDTH,
-        height: WORKSPACE_HEIGHT,
+        width: initialWidth.current || WORKSPACE_WIDTH,
+        height: initialHeight.current || WORKSPACE_HEIGHT,
         name: WORKSPACE_NAME,
         fill: "white",
         selectable: false,

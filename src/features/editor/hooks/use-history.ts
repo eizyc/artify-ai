@@ -1,14 +1,19 @@
 import { fabric } from "fabric";
 import { useCallback, useRef, useState } from "react";
 
-import { JSON_KEYS } from "@/features/editor/const";
+import { JSON_KEYS, WORKSPACE_NAME } from "@/features/editor/const";
 
 interface UseHistoryProps {
   canvas: fabric.Canvas | null;
   autoZoom: () => void;
+  saveCallback?: (values: {
+    json: string;
+    height: number;
+    width: number;
+  }) => void;
 };
 
-export const useHistory = ({ canvas, autoZoom }: UseHistoryProps) => {
+export const useHistory = ({ canvas, autoZoom, saveCallback }: UseHistoryProps) => {
   const [historyIndex, setHistoryIndex] = useState(0);
   const canvasHistory = useRef<string[]>([]);
   const skipSave = useRef(false);
@@ -34,11 +39,16 @@ export const useHistory = ({ canvas, autoZoom }: UseHistoryProps) => {
       setHistoryIndex(history.length - 1);
     }
 
+    const workspace = canvas
+      .getObjects()
+      .find((object) => object.name === WORKSPACE_NAME);
+    const height = workspace?.height || 0;
+    const width = workspace?.width || 0;
+
+    saveCallback?.({ json, height, width });
+
   }, 
-  [
-    canvas,
-    historyIndex
-  ]);
+  [canvas, historyIndex, saveCallback]);
 
   const undo = useCallback(() => {
     if (canUndo()) {

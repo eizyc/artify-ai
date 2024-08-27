@@ -29,7 +29,7 @@ export const UserButton = () => {
     return null;
   }
 
-  const name = session.data?.user?.name!;
+  const name = session.data?.user?.name || "Anonymous";
   const imageUrl = session.data?.user?.image;
 
   return (
