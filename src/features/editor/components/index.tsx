@@ -110,7 +110,7 @@ export const Editor = ({ initialData }: EditorProps) => {
 
   return (
     <div className="h-full flex flex-col">
-      <Navbar {...params}/>
+      <Navbar id={initialData?.id} {...params}/>
       <div className="absolute h-[calc(100%-68px)] w-full top-[68px] flex">
         <Sidebar
           activeTool={activeTool}
