@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession, signOut } from "next-auth/react";
-import { CreditCard, Crown, Loader, LogOut } from "lucide-react";
+import { CreditCard, Loader, LogOut } from "lucide-react";
 
 import { 
   Avatar, 
