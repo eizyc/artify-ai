@@ -21,6 +21,7 @@ import {
   RemoveBgSidebar,
   DrawSidebar,
   SettingsSidebar,
+  TemplateSidebar,
 } from "@/features/editor/components/layout/sidebar/components";
 import { ResponseType } from "@/features/projects/api/use-get-project";
 import { selectionDependentTools } from "../const";
@@ -129,6 +130,7 @@ export const Editor = ({ initialData }: EditorProps) => {
         <RemoveBgSidebar {...params}/>
         <DrawSidebar {...params}/>
         <SettingsSidebar {...params}/>
+        <TemplateSidebar {...params}/>
 
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
           <Toolbar {...params} />
