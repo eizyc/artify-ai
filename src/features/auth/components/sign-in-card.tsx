@@ -5,6 +5,7 @@
 // When in client, use Client API:
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -26,21 +27,20 @@ export const SignInCard = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const router = useRouter();
   const params = useSearchParams();
   const error = params.get("error");
   const code = params.get("code");
 
   const errMsg = useMemo(() => {
-    return code?? "Invalid email or password"
-  },[code])
+    return code ?? "Invalid email or password";
+  }, [code]);
 
   const onProviderSignIn = (provider: "github" | "google") => {
     signIn(provider, { callbackUrl: "/" });
   };
 
-  const onCredentialSignIn = (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
+  const onCredentialSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     signIn("credentials", {
@@ -53,9 +53,7 @@ export const SignInCard = () => {
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
-        <CardTitle>
-          Login to continue
-        </CardTitle>
+        <CardTitle>Login to continue</CardTitle>
         <CardDescription>
           Use your email or another service to continue
         </CardDescription>
@@ -86,6 +84,14 @@ export const SignInCard = () => {
             Continue
           </Button>
         </form>
+        <Button
+          className="w-full my-0"
+          size="lg"
+          variant="ghost"
+          onClick={() => router.push("/editor")}
+        >
+          No login required. Quick start (Local Project)
+        </Button>
         <Separator />
         <div className="flex flex-col gap-y-2.5">
           <Button
@@ -108,7 +114,10 @@ export const SignInCard = () => {
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
-          Don&apos;t have an account? <Link href="/sign-up"><span className="text-sky-700 hover:underline">Sign up</span></Link>
+          Don&apos;t have an account?{" "}
+          <Link href="/sign-up">
+            <span className="text-sky-700 hover:underline">Sign up</span>
+          </Link>
         </p>
       </CardContent>
     </Card>
