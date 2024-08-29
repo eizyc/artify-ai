@@ -1,1 +1,1 @@
-export const GLOBAL_NAME = "CANVA CLONE";
+export const GLOBAL_NAME = "ARTIFY AI";
