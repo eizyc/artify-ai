@@ -15,8 +15,10 @@ import {
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { useCheckout } from "../api/use-checkout";
 
 export const SubscriptionModal = () => {
+  const mutation = useCheckout();
   const { isOpen, onClose } = useSubscriptionModal();
 
   return (
@@ -66,6 +68,8 @@ export const SubscriptionModal = () => {
         <DialogFooter className="pt-2 mt-4 gap-y-2">
           <Button
             className="w-full"
+            onClick={() => mutation.mutate()}
+            disabled={mutation.isPending}
           >
             Upgrade
           </Button>

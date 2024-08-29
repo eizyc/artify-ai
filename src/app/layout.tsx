@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Modals } from "@/components/modals";
+import { SubscriptionAlert } from "@/features/subscriptions/components/subscription-alert";
 
 import { auth } from "@/auth";
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
           <Providers>
             <Toaster />
             <Modals />
+            <SubscriptionAlert />
             {children}
           </Providers>
           </body>

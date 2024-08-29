@@ -27,6 +27,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 + [authjs + drizzle](https://authjs.dev/getting-started/adapters/drizzle)
 + [Auth.js middleware for Hono To Protect API Access](https://github.com/honojs/middleware/tree/main/packages/auth-js)
 + [Foreign keys & Relations DIFF](https://orm.drizzle.team/docs/rqb#foreign-keys)
++ [Stripe webhooks](https://dashboard.stripe.com/test/workbench/webhooks)
++ [Stripe webhooks Types of events](https://docs.stripe.com/api/events/types)
++ Stripe webhooks Command: stripe listen --forward-to localhost:3000/api/subscriptions/webhook
 ## Getting Started
 
 First, run the development server:
