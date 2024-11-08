@@ -5,6 +5,7 @@ import { Toolbar } from "@/features/editor/components/layout/toolbar";
 import { useEditor } from "@/features/editor/hooks/use-editor";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
+import { initAligningGuidelines } from "@/lib/fabric/aligning_guidelines";
 import debounce from "lodash.debounce";
 import { ActiveTool } from "@/features/editor/types";
 import {
@@ -92,6 +93,7 @@ export const Editor = ({ initialData }: EditorProps) => {
       controlsAboveOverlay: true,
       preserveObjectStacking: true,
     });
+    initAligningGuidelines(canvas)
 
     init({
       initialCanvas: canvas,
