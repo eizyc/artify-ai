@@ -1,7 +1,7 @@
-# canva_clone
 
 ### Resource
-[codewithantonio Build a Canva clone](https://www.codewithantonio.com/projects/canva-clone)
++ [codewithantonio](https://www.codewithantonio.com/projects/canva-clone)
++ [DB Diagram](https://dbdiagram.io/d/67305267e9daa85acae92f6d)
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
