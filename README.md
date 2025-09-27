@@ -1,66 +1,47 @@
+# Artify AI
 
-### Resource
-+ [codewithantonio](https://www.codewithantonio.com/projects/canva-clone)
-+ [DB Diagram](https://dbdiagram.io/d/67305267e9daa85acae92f6d)
+Artify AI is a modern web application for AI-powered image creation and editing. It leverages advanced models for generating images from text prompts and removing image backgrounds, making creative projects easier and faster.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+![Artify AI Preview](./1758994437561.jpg)
 
-### Useful Link
+## Features
 
-+ [fabricjs](http://fabricjs.com/)
-+ [hono](https://hono.dev/docs/guides/rpc#client)
-+ [react-query](https://tanstack.com/query/latest/docs/framework/react/quick-start)
-+ [uploadthing](https://docs.uploadthing.com/getting-started/appdir)
-+ <del>[replicate (Free Limited Times)](https://replicate.com/black-forest-labs/flux-schnell?input=nodejs)<del>
-+ [FREE TEXT2IMG](https://www.reddit.com/r/StableDiffusion/comments/1cx7wuw/is_there_any_text_to_image_api_for_free/)
-+ [remove-background-web](https://huggingface.co/spaces/Xenova/remove-background-web)
-+ [xenova remove background](https://github.com/xenova/transformers.js/blob/main/examples/remove-background-client/main.js)
-+ [react-hydration-error / only render client](https://nextjs.org/docs/messages/react-hydration-error)
-+ [auth.js](https://authjs.dev/getting-started/authentication/oauth)
-+ [next-auth.js](https://next-auth.js.org/getting-started/example#frontend---add-react-hook)
-+ [Session strategies](https://authjs.dev/concepts/session-strategies#jwt-session)
-+ [Extending the Session](https://authjs.dev/guides/extending-the-session#with-jwt)
-+ [Gihtub OAuth](https://github.com/settings/developers)
-+ [Google OAuth](https://console.cloud.google.com/apis/credentials/consent)
-+ [neon DB](https://console.neon.tech/)
-+ [drizzle ORM](https://orm.drizzle.team/docs/get-started-postgresql#neon-postgres)
-+ [authjs + drizzle](https://authjs.dev/getting-started/adapters/drizzle)
-+ [Auth.js middleware for Hono To Protect API Access](https://github.com/honojs/middleware/tree/main/packages/auth-js)
-+ [Foreign keys & Relations DIFF](https://orm.drizzle.team/docs/rqb#foreign-keys)
-+ [Stripe webhooks](https://dashboard.stripe.com/test/workbench/webhooks)
-+ [Stripe webhooks Types of events](https://docs.stripe.com/api/events/types)
-+ Stripe webhooks Command: stripe listen --forward-to localhost:3000/api/subscriptions/webhook
+- **Text-to-Image Generation:** Generate images from prompts using external AI models (e.g., Stable Diffusion).
+- **Background Removal:** Remove backgrounds from images using Hugging Face-hosted AI models.
+- **Image Templates & Galleries:** Browse customizable templates and curated images from sources like Unsplash.
+- **Modern Frontend:** Built with React, TanStack Query, Radix UI, and Tailwind CSS for a smooth, interactive experience.
+- **Authentication & Uploads:** Supports OAuth-based login and secure image uploads.
+- **Extensible API:** Backend powered by Hono for scalable and modular API development.
+
+## Tech Stack
+
+- **Frontend:** Next.js, TypeScript, React, Tailwind CSS, Radix UI
+- **State Management:** TanStack Query
+- **Backend/API:** Hono
+- **AI Models:** Replicate, Hugging Face Transformers (RMBG for background removal)
+- **Image Hosting:** UploadThing, Unsplash
+- **Authentication:** Auth.js
+
 ## Getting Started
 
-First, run the development server:
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/eizyc/artify-ai.git
+   cd artify-ai
 
-```bash
+2.Install Dependencies
+npm install
+# or
+yarn install
+
+3.Set Environment Variables
+Add your API keys for Replicate, Hugging Face, Unsplash, and other services to a .env.local file.
+
+4.Run the Development Server
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5.Open in Browser
+Visit http://localhost:3000 to use the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
